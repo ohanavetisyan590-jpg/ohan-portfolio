@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ohan Avetisyan | Portfolio Slider</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #0c0c0c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px; /* Կարող ես մեծացնել ըստ ցանկության */
+            aspect-ratio: 4 / 4.2; /* Հարմարեցված է քո նկարների համաչափությանը */
+            margin: auto;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+            background-color: #111;
+            border-radius: 4px;
+        }
+
+        .slider {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: fadeEffect 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Նկարը չի ձգվում ու պահպանում է որակը */
+            display: block;
+        }
+
+        @keyframes fadeEffect {
+            from { opacity: 0.5; }
+            to { opacity: 1; }
+        }
+
+        /* Նավիգացիոն Կոճակներ */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #ffffff;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 22px;
+            transition: 0.3s;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+            z-index: 10;
+        }
+
+        .nav-btn:hover {
+            background-color: #d4af37; /* Ոսկեգույն */
+            color: #000000;
+            border-color: #d4af37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .prev-btn { left: 20px; }
+        .next-btn { right: 20px; }
+
+        /* Կետիկների բաժին (Dots) */
+        .dots-container {
+            text-align: center;
+            position: absolute;
+            bottom: 25px;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .dot {
+            cursor: pointer;
+            height: 8px;
+            width: 8px;
+            margin: 0 5px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            display: inline-block;
+            transition: 0.3s ease;
+        }
+
+        .dot.active, .dot:hover {
+            background-color: #d4af37;
+            width: 24px; /* Ժամանակակից երկարող էֆեկտ ակտիվի դեպքում */
+        }
+    </style>
+</head>
+<body>
+
+<div class="slider-container">
+    <div class="slider">
+        <div class="slide active"><img src="1000024822.jpg" alt="Էջ 1"></div>
+        <div class="slide"><img src="1000024824.jpg" alt="Էջ 2"></div>
+        <div class="slide"><img src="1000024826.jpg" alt="Էջ 3"></div>
+        <div class="slide"><img src="1000024828.jpg" alt="Էջ 4"></div>
+        <div class="slide"><img src="1000024830.jpg" alt="Էջ 5"></div>
+        <div class="slide"><img src="1000024832.jpg" alt="Էջ 6"></div>
+<div class="slide"><img src="1000024834.jpg" alt="Էջ 7"></div>
+        <div class="slide"><img src="1000024836.jpg" alt="Էջ 8"></div>
+        <div class="slide"><img src="1000024838.jpg" alt="Էջ 9"></div>
+        <div class="slide"><img src="1000024840.jpg" alt="Էջ 10"></div>
+        <div class="slide"><img src="1000024842.jpg" alt="Էջ 11"></div>
+        <div class="slide"><img src="1000024844.jpg" alt="Էջ 12"></div>
+    </div>
+
+    <button class="nav-btn prev-btn">&#10094;</button>
+    <button class="nav-btn next-btn">&#10095;</button>
+
+    <div class="dots-container">
+        <span class="dot active" onclick="currentSlide(0)"></span>
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+        <span class="dot" onclick="currentSlide(4)"></span>
+        <span class="dot" onclick="currentSlide(5)"></span>
+        <span class="dot" onclick="currentSlide(6)"></span>
+        <span class="dot" onclick="currentSlide(7)"></span>
+        <span class="dot" onclick="currentSlide(8)"></span>
+        <span class="dot" onclick="currentSlide(9)"></span>
+        <span class="dot" onclick="currentSlide(10)"></span>
+        <span class="dot" onclick="currentSlide(11)"></span>
+    </div>
+</div>
+
+<script>
+    let currentIdx = 0;
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    const nextBtn = document.querySelector('.next-btn');
+    const prevBtn = document.querySelector('.prev-btn');
+
+    function showSlide(index) {
+        if (index >= slides.length) currentIdx = 0;
+        else if (index < 0) currentIdx = slides.length - 1;
+        else currentIdx = index;
+
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        slides[currentIdx].classList.add('active');
+        if(dots[currentIdx]) dots[currentIdx].classList.add('active');
+    }
+
+    nextBtn.addEventListener('click', () => showSlide(currentIdx + 1));
+    prevBtn.addEventListener('click', () => showSlide(currentIdx - 1));
+
+    function currentSlide(index) {
+        showSlide(index);
+    }
+
+    // Կառավարում ստեղնաշարի սլաքներով
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') showSlide(currentIdx + 1);
+        if (e.key === 'ArrowLeft') showSlide(currentIdx - 1);
+    });
+</script>
+
+</body>
+</html>
